@@ -4,6 +4,8 @@ set t_Co=256
 set t_ut=
 set hls
 set nu
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+set list
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -13,7 +15,29 @@ Plug 'tomasr/molokai'
 Plug 'haya14busa/incsearch.vim'
 Plug 'tomasiser/vim-code-dark'
 Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'joshdick/onedark.vim'
+Plug 'tpope/vim-surround'
+Plug 'edkolev/tmuxline.vim'
 call plug#end()
+
+colorscheme codedark
+
+"tmuxline settings
+"when powerline font not installed, use
+"powerline separators will cause serious problem
+let g:tmuxline_powerline_separators = 0
+
+let g:tmuxline_preset = {
+    \'a'       : '#S',
+    \'b'       : '#{?client_prefix,#[reverse]<Prefix>#[noreverse],        }',
+    \'win'     : '#I #W',
+    \'cwin'    : '#I #W',
+    \'x'       : '#{?client_prefix,#[reverse]<Prefix>#[noreverse],        }',
+    \'y'       : '%Y-%m-%d | %H:%M',
+    \'z'       : '#h',
+    \'options' : {'status-justify' : 'left'}}
 
 "fzf settings
 source ~/.vim/vimFzfFuncs
@@ -26,7 +50,10 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 nmap <leader>- :bp<CR>
 nmap <leader>= :bn<CR>
 let g:airline_theme = 'codedark'
-colorscheme codedark
+" for tmuxline + vim-airline integration
+let g:airline#extensions#tmuxline#enabled = 1
+" start tmuxline even without vim running
+let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 
 "NERDTree settings
 nmap <F8> :NERDTreeToggle<CR>
