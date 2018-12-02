@@ -135,6 +135,22 @@ fstash() {
   done
 }
 
+fstatus(){
+    local file
+    file=$(git status -s |
+        fzf-tmux -l 50 --preview='
+        if [ `echo {}|sed "s/\(.*\)\s.*/\1/"`x = "??"x ] 
+        then
+            cat `echo {}|sed "s/.*\s\(.*\)/\1/"`
+        else
+            git diff --color=always \
+                HEAD `echo {}|sed "s/.*\s\(.*\)/\1/"` |diff-so-fancy
+        fi
+    ' --preview-window up:60
+    ) &&
+    vim `echo ${file}|sed "s/.*\s\(.*\)/\1/"`
+}
+
 function cd() {
     if [[ "$#" != 0 ]]; then
         builtin cd "$@";
