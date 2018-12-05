@@ -136,19 +136,24 @@ fstash() {
 }
 
 fstatus(){
-    local file
-    file=$(git status -s |
-        fzf-tmux -l 50 --preview='
-        if [ `echo {}|sed "s/\(.*\)\s.*/\1/"`x = "??"x ] 
+    local fileName fileStatus viewUntract viewFileDiff
+    #git status -s output format "xx sss.cc"
+    fileName="\`echo {}|sed \"s/.*\s\(.*\)/\1/\"\`"
+    fileStatus="\`echo {}|sed \"s/\(.*\)\s.*/\1/\"\`"
+    viewUntract="cat ${fileName}|less -Rc"
+    viewFileDiff="git diff --color=always HEAD ${fileName}|diff-so-fancy|less -Rc"
+    #less has no effect in preview window, use same command as enter do
+    viewDiff="
+        if [ ${fileStatus}x = "??"x ] 
         then
-            cat `echo {}|sed "s/.*\s\(.*\)/\1/"`
+            cat ${fileName}|less -Rc
         else
-            git diff --color=always \
-                HEAD `echo {}|sed "s/.*\s\(.*\)/\1/"` |diff-so-fancy
-        fi
-    ' --preview-window up:60
-    ) &&
-    vim `echo ${file}|sed "s/.*\s\(.*\)/\1/"`
+            git diff --color=always HEAD ${fileName}|diff-so-fancy|less -Rc
+        fi 
+    "
+    git status -s |
+        fzf --preview="${viewDiff}" --preview-window up:60 \
+      --bind "enter:execute:${viewDiff}"
 }
 
 function cd() {

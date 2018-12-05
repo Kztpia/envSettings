@@ -26,3 +26,5 @@ Choose by enter, and return it is only one default way to deal with the selectio
 
 It's possible to customize what to do with the selection and bind many keys to decide in which way to process the selection.
 use --bind "**key**:**action**" to customize these. fzf provide some default actions, like: page up, page down. Like prevew, you can use "execute(**commmand**)" do more. Like preview, the **command** is more like a script than one command.
+
+Attentation, dealt with variables carefully. When you send a option like --bind "enter: echo $var", the "$" active before fzf received the string, resulting that fzf keeps echo the same value because the action fzf actualy received is, for example,  "echo <font color=red>24</font>"(24 is the value when you run the fzf command). Yes, your variable is no longer variable for fzf by the time you run fzf command. So add "\\" properly so that variables are solved by the time fzf run that command, not the time you run fzf cmd.
