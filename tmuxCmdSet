@@ -1,0 +1,33 @@
+show_active_pane_cmd() {
+  local cmds index cnt
+  cmds=(`tmux list-pane -F "#{pane_current_command}"`)
+  index=(`tmux list-window -F "#{pane_index}"`)
+  echo "${index[@]}"
+  cnt=`tmux list-pane -F "#{window_id}"|head -1`
+  echo $cnt
+  index=${index[0]}
+  echo "${index}"
+  ((index=$index+1))
+  echo "${cmds[$index]}"
+}
+
+show_pane_cmd(){
+    local cmds index
+    cmds=(`tmux list-pane -F "#{pane_current_command}"`)
+    echo "${cmds[$1]}"
+}
+
+file_opener(){
+    local cmd_now
+    fzf --height 10 --reverse \
+    --bind "enter:execute@
+    cmds=(\`tmux list-pane -F \"#{pane_current_command}\"\`)
+    cmd_now=\${cmds[0]}
+    if [ \"\$cmd_now\"x = \"vim\"x ]
+    then
+    tmux send-keys -t 0 Escape : 'e '\$PWD'/'{} Enter 
+    else
+    tmux send-keys -t 0 vim' '\$PWD'/'{} Enter
+    fi
+    @"
+}
