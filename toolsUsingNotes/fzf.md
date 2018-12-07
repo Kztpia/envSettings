@@ -20,7 +20,16 @@ So it would be a good idea to tune the output **COMMAND** in a stand alone scrip
 
 --prevew-window can be used to customize the preview window. Like where to put the preview window or what its size should be.
 ## Make use of the chosen option
-When deal with output from 'git status -s', the selection may be like "MM source.c". It may need some processing be it can be used as a argument for the successor, " echo {}|sed balabala " may be a good start.
+When deal with output from 'git status -s', the selection may be like "MM source.c". It may need some processing be it can be used as a argument for the successor, " echo {}|sed balabala " may be a good start.<br/>
+fzf provide some option to do simple preprocessing to the selection. By option "-d ':' " fzf can divide a grep output into three part like:
+
+
+filename<font color=red>{1} | divider(assgined by "-d") | line num<font color=red>{2} | diveder | line content<font color=red>{3}|
+|:----:|:----:|:----|:----:|:---| 
+|arch/arm/cpu/armv7/sunxi/psci.c|:|122|:|static void __secure sunxi_set_entry_address(void *entry)|
+
+besides you can use option "-n <font color=red>3</font>" to limit the search region within part {3}.
+        
 ## More actions
 Choose by enter, and return it is only one default way to deal with the selection. 
 

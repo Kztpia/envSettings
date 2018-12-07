@@ -144,16 +144,26 @@ fstatus(){
     viewFileDiff="git diff --color=always HEAD ${fileName}|diff-so-fancy|less -Rc"
     #less has no effect in preview window, use same command as enter do
     viewDiff="
-        if [ ${fileStatus}x = "??"x ] 
+        if [ \"${fileStatus}\"x = "??"x ] 
         then
             cat ${fileName}|less -Rc
         else
             git diff --color=always HEAD ${fileName}|diff-so-fancy|less -Rc
         fi 
     "
+    #remember to set color.status to alawys to for git colorize output
     git status -s |
-        fzf --preview="${viewDiff}" --preview-window up:60 \
-      --bind "enter:execute:${viewDiff}"
+        fzf --ansi --height 40 --preview="${viewDiff}" --preview-window down:60% \
+        --reverse --header="enter:preview,a-o:vimdiff,a-/:reverse" \
+      --bind "enter:execute:${viewDiff}" \
+      --bind "alt-o:execute:vim ${fileName} \"+Gdiff HEAD\" < /dev/tty" \
+      --bind "alt-/:execute:
+          if [ \"${fileStatus}\"x = "??"x ] 
+        then
+            git clean ${fileName} -f
+        else
+            git checkout ${fileName} -f
+        fi"
 }
 
 function cd() {
@@ -174,4 +184,14 @@ function cd() {
         [[ ${#dir} != 0 ]] || return 0
         builtin cd "$dir" &> /dev/null
     done
+}
+
+fzfgrep(){
+    grep --colour=always -rnHiI --exclude="tags" --exclude="cscope.*" $@ |
+        fzf --ansi -d ':' -n 3 --preview="
+            cat -n {1}|sed -n {2},'\$'p
+        " --preview-window up:60% \
+    --bind "enter:execute:
+        vim {1} +{2} < /dev/tty
+    "
 }
