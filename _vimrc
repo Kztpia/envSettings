@@ -58,6 +58,20 @@ let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 "NERDTree settings
 nmap <F8> :NERDTreeToggle<CR>
 
+"you complete me
+let g:ycm_key_list_stop_completion = ['<TAB>']
+let g:ycm_add_preview_to_completeopt = 0
+set completeopt-=preview
+let g:ycm_confirm_extra_conf = 0
+function AutoGoTo()
+    if stridx(getline(line(".")),"#include")==0
+        exe "normal :YcmCompleter GoToInclude\<CR>"
+    else
+        exe "normal :tj ".expand("<cword>")."\<CR>"
+    endif
+endfunction
+nmap <C-]> :call AutoGoTo()<CR>
+
 "incsearch settings
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
