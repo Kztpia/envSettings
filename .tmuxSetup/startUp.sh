@@ -1,5 +1,6 @@
 basedir="`cd $(dirname "$0"); pwd -P`"
 echo $basedir
+tmux split-window
 tmux select-pane -t 0
 tmux kill-pane -a -t 0
 tmux split-window
