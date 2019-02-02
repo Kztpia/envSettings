@@ -1,4 +1,9 @@
 fzf https://github.com/junegunn/fzf
-ag https://github.com/ggreer/the_silver_searcher
 diff-so-fancy https://github.com/so-fancy/diff-so-fancy
 cscope http://cscope.sourceforge.net/
+
+required compiling
+ag https://github.com/ggreer/the_silver_searcher
+YouCompleteMe https://github.com/Valloric/YouCompleteMe
+Bear https://github.com/rizsotto/Bear
+vim https://github.com/vim/vim  the one ship with the os usually is too old
