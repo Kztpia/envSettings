@@ -20,6 +20,11 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'joshdick/onedark.vim'
 Plug 'tpope/vim-surround'
 Plug 'edkolev/tmuxline.vim'
+Plug 'kztpia/vim-tmux-clipboard'
+Plug 'jeaye/color_coded'
+Plug 'easymotion/vim-easymotion'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 colorscheme codedark
@@ -58,6 +63,10 @@ let airline#extensions#tmuxline#snapshot_file = "~/.tmux-status.conf"
 "NERDTree settings
 nmap <F8> :NERDTreeToggle<CR>
 
+"easymotion
+let g:EasyMotion_do_shade = 0
+nmap <leader>w <Plug>(easymotion-bd-w)
+
 "you complete me
 let g:ycm_key_list_stop_completion = ['<TAB>']
 let g:ycm_add_preview_to_completeopt = 0
@@ -71,6 +80,11 @@ function AutoGoTo()
     endif
 endfunction
 nmap <C-]> :call AutoGoTo()<CR>
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 
 "incsearch settings
 map /  <Plug>(incsearch-forward)
