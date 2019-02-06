@@ -20,12 +20,15 @@ srcs already have makefiles, step 1 is passed. prefix can be change by passing t
 compile vim with python support. a python executable and lib, whom is usually shiped with os, is not enough. you need srcs of python.
 
 # you complete me
-for asynchronous features. it consist of two parts: client, witch run as a vim plugin, request the server periodly. and a server, a precomiled program for good performance.
+for asynchronous features. it consist of two parts: 
+>client -- witch run as a vim plugin, request the server periodly.<br>
+>server -- a precomiled program for good performance.<br>
+
 client is already usable when shipped, the point is compiling the server.
 
 like the full install guide said :
 >1. cmake to generate makefile
->2. compile(use cmake and not make). the compile progress also do the install( or file copying)
+>2. compile(use cmake and notcd  make). the compile progress also do the install( or file copying)
 
 ## dependency
 1. ptyhon
@@ -58,3 +61,32 @@ compiling is easy and simple. baraly have dependency problem.
 
 add -DCMAKE_INSTALL_PREFIX=${path} to change install path prefix when generate makefiles by cmake.<br>
 if it doesn't work, it's still possible to all string about prefix in generated make files.
+
+# color_coded
+use clang to provide semantics highlight like you complete me do.
+
+when set -DDOWNLOAD_CLANG=0, <b>add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)</b>is not set and will rise a error: loadFromFile no defined. set this to 0 manually
+
+## dependency
+1. lua
+
+    color_coded use liblua.so, but lua source from lua.org dont build liblua.so, only liblua.a
+    refer this for how to compile a so from the source:
+    https://git.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/lua
+2. clang
+
+    have heavier dependency then youcompleteme do. relay on.<br>
+    attention, youcompleteme copy libclang.so to is dir, so is ok to remove the prebuild llvm package once compile is finish. But color_coded dont. so find a good place for the libclang.so first.
+
+    file(folder)|
+    -|
+    bin/llvm-config|
+    include/clang|
+    include/clang-c|
+    include/llvm/ADT|
+    include/llvm/Config|
+    include/llvm/Support|
+    include/llvm-c|
+    lib/libclang.so|
+    lib/libclang*.a|
+    lib/libllcm*.a|
