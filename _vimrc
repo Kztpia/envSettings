@@ -20,11 +20,13 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'joshdick/onedark.vim'
 Plug 'tpope/vim-surround'
 Plug 'edkolev/tmuxline.vim'
-Plug 'kztpia/vim-tmux-clipboard'
 Plug 'jeaye/color_coded'
 Plug 'easymotion/vim-easymotion'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'lyuts/vim-rtags'
+Plug 'roxma/vim-tmux-clipboard'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 call plug#end()
 
 colorscheme codedark
