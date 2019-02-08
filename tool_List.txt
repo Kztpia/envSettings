@@ -7,3 +7,5 @@ ag https://github.com/ggreer/the_silver_searcher
 YouCompleteMe https://github.com/Valloric/YouCompleteMe
 Bear https://github.com/rizsotto/Bear
 vim https://github.com/vim/vim  the one ship with the os usually is too old
+rtags https://github.com/Andersbakken/rtags
+color_coded https://github.com/jeaye/color_coded
