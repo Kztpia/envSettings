@@ -6,6 +6,7 @@ set hls
 set nu
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 set list
+set bs=1
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -27,6 +28,8 @@ Plug 'honza/vim-snippets'
 Plug 'lyuts/vim-rtags'
 Plug 'roxma/vim-tmux-clipboard'
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
 call plug#end()
 
 colorscheme codedark
@@ -87,6 +90,22 @@ nmap <C-]> :call AutoGoTo()<CR>
 let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
+" enable gtags module
+let g:gutentags_modules = []
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
+
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" manually control what projects should generate tags
+let g:gutentags_project_root = ['.root']
+let g:gutentags_add_default_project_roots = 0
 
 "incsearch settings
 map /  <Plug>(incsearch-forward)
