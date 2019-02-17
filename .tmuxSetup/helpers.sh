@@ -1,5 +1,5 @@
 #two param $1:filename better be absolute path $2:linenum
-#two C-c make sure incomplete discarded
+#two C-u make sure incomplete input discarded
 open_and_jump(){
     local cmd_now
     cmds=(`tmux list-pane -F "#{pane_current_command}"`)
@@ -40,13 +40,14 @@ sym_opener(){
                 cd $(dirname $PWD)
             fi
         else
-            cscope -RL1 ".*" |
-                fzf -d ' ' -n 4 --preview="
-                    cat -n {1}|sed -n {3},'\$'p
-                " --preview-window up:60% \
-                --bind "enter:execute:
-                    open_and_jump \$PWD'/'{1} {3}
-                "
+            break
         fi
+        cscope -RL1 ".*" |
+            fzf -d ' ' -n 4 --preview="
+                cat -n {1}|sed -n {3},'\$'p
+            " --preview-window up:60% \
+            --bind "enter:execute:
+                open_and_jump \$PWD'/'{1} {3}
+            "
     done
 }
