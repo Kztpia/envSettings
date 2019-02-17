@@ -1,6 +1,7 @@
 fzf https://github.com/junegunn/fzf
 diff-so-fancy https://github.com/so-fancy/diff-so-fancy
 cscope http://cscope.sourceforge.net/
+z https://github.com/rupa/z
 
 required compiling
 ag https://github.com/ggreer/the_silver_searcher
@@ -9,3 +10,12 @@ Bear https://github.com/rizsotto/Bear
 vim https://github.com/vim/vim  the one ship with the os usually is too old
 rtags https://github.com/Andersbakken/rtags
 color_coded https://github.com/jeaye/color_coded
+gtags https://mirrors.tuna.tsinghua.edu.cn/gnu/global/
+
+gcc tool set
+https://mirrors.tuna.tsinghua.edu.cn/gnu/gcc
+gcc depencies
+https://mirrors.tuna.tsinghua.edu.cn/gnu/mpc/
+https://mirrors.tuna.tsinghua.edu.cn/gnu/mpfr/
+https://mirrors.tuna.tsinghua.edu.cn/gnu/gmp/
+http://ftp.ntua.gr/mirror/gnu/gcc/infrastructure/
