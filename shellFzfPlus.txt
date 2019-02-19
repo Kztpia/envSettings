@@ -197,13 +197,29 @@ fzfgrep(){
 }
 
 _fzf_complete_z() {
-    local selected=`z|fzf  --reverse --height 10|sed "s/^[^ ]\+\ \+\//\//"`
-    printf '\e[5n'
-
-    if [ -n "$selected" ]; then
-        COMPREPLY=( "$selected" )
-        return 0
-    fi
+    COMP_WORDS[$COMP_CWORD]=${COMP_WORDS[COMP_CWORD]}"**"
+    _fzf_complete "--reverse --ansi" "$@" < <(
+        z|sed 's/^[^ ]\+\ \+//'
+    )
 }
 
 complete -F _fzf_complete_z -o default -o bashdefault z
+
+_fzf_complete_git_cherry_pick() {
+    ARGS="$@"
+    tmp=$2
+    local commits
+    commits=$(git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" -100)
+    if [[ $3 == 'cherry-pick' ]]; then
+        _fzf_complete "--reverse --multi --ansi" "$@" < <(
+            echo "$branches"
+        )
+        if [ x$tmp == x"**" ]; then
+            COMPREPLY=`echo "$COMPREPLY"| sed 's/\ \+/../'`
+        fi
+    else
+        _fzf_path_completion "$@"
+    fi
+}
+
+complete -F _fzf_complete_git_cherry_pick_post -o default -o bashdefault git
