@@ -51,3 +51,31 @@ sym_opener(){
             "
     done
 }
+
+sym_opener_gtags_cscope(){
+    tmpDir=$PWD
+    while [ true ]
+    do
+        if [ ! -f $tmpDir"/GTAGS" ]
+        then
+            if [ "$tmpDir"x = "/home/$(whoami)"x ] || [ "$tmpDir"x = "/"x ]
+            then
+                echo "cscope not found"
+                return -1
+            else
+                tmpDir=$(dirname $tmpDir)
+            fi
+        else
+            break
+        fi
+    done
+    colorOutput='{print "\033[35m"$1"\033[34m:\033[32m"$3"\033[34m:\033[0m" $2}'
+    cd $tmpDir
+    gtags-cscope -dL1 ".*" | awk "$colorOutput" |
+        fzf --ansi -d ':' -n 3 --preview="
+            cat -n {1}|sed -n {2},'\$'p
+        " --preview-window up:60% \
+        --bind "enter:execute:
+            open_and_jump \$PWD'/'{1} {2}
+        "
+}
