@@ -1,0 +1,68 @@
+From 0c29523c2bc999c6f1837ef9a22291407324a2bb Mon Sep 17 00:00:00 2001
+From: kztopia <kztp@qq.com>
+Date: Sat, 10 Aug 2019 19:35:13 +0800
+Subject: [PATCH] support build host tmux
+
+---
+ package/Config.in           |  1 +
+ package/ncurses/ncurses.mk  |  1 +
+ package/tmux/Config.in.host | 10 ++++++++++
+ package/tmux/tmux.mk        |  2 ++
+ 4 files changed, 14 insertions(+)
+ create mode 100644 package/tmux/Config.in.host
+
+diff --git a/package/Config.in b/package/Config.in
+index a14736c599..ee312bbc61 100644
+--- a/package/Config.in
++++ b/package/Config.in
+@@ -2156,6 +2156,7 @@ comment "Utilities"
+ 	source "package/time/Config.in"
+ 	source "package/tini/Config.in"
+ 	source "package/tmux/Config.in"
++	source "package/tmux/Config.in.host"
+ 	source "package/which/Config.in"
+ 	source "package/xmlstarlet/Config.in"
+ 	source "package/xxhash/Config.in"
+diff --git a/package/ncurses/ncurses.mk b/package/ncurses/ncurses.mk
+index e27598bd42..a648043528 100644
+--- a/package/ncurses/ncurses.mk
++++ b/package/ncurses/ncurses.mk
+@@ -154,6 +154,7 @@ HOST_NCURSES_CONF_OPTS = \
+ 	--without-cxx-binding \
+ 	--without-ada \
+ 	--with-default-terminfo-dir=/usr/share/terminfo \
++	--with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo" \
+ 	--disable-db-install \
+ 	--without-normal
+ 
+diff --git a/package/tmux/Config.in.host b/package/tmux/Config.in.host
+new file mode 100644
+index 0000000000..7002eb169c
+--- /dev/null
++++ b/package/tmux/Config.in.host
+@@ -0,0 +1,10 @@
++config BR2_PACKAGE_HOST_TMUX
++	bool "host tmux"
++	help
++	  tmux is a terminal multiplexer, it enables a number of
++	  terminals (or windows) to be accessed and controlled from a
++	  single terminal.
++
++	  NOTE: tmux needs a working UTF-8 locale (BR2_GENERATE_LOCALE)
++
++	  https://tmux.github.io/
+diff --git a/package/tmux/tmux.mk b/package/tmux/tmux.mk
+index 8b7a96e898..07dfd5859c 100644
+--- a/package/tmux/tmux.mk
++++ b/package/tmux/tmux.mk
+@@ -17,5 +17,7 @@ define TMUX_ADD_TMUX_TO_SHELLS
+ 		|| echo "/usr/bin/tmux" >> $(TARGET_DIR)/etc/shells
+ endef
+ TMUX_TARGET_FINALIZE_HOOKS += TMUX_ADD_TMUX_TO_SHELLS
++HOST_TMUX_DEPENDENCIES = host-libevent host-ncurses host-pkgconf
+ 
+ $(eval $(autotools-package))
++$(eval $(host-autotools-package))
+-- 
+2.17.1
+
