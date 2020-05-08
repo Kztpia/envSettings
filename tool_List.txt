@@ -19,3 +19,5 @@ https://mirrors.tuna.tsinghua.edu.cn/gnu/mpc/
 https://mirrors.tuna.tsinghua.edu.cn/gnu/mpfr/
 https://mirrors.tuna.tsinghua.edu.cn/gnu/gmp/
 http://ftp.ntua.gr/mirror/gnu/gcc/infrastructure/
+
+https://registry.npmjs.org/
